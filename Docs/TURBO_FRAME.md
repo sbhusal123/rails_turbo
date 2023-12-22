@@ -59,7 +59,7 @@ Here, we've initialized a turbo frame named: `hello_frame` and on clicking the b
 ```ruby
 class SiteController < ApplicationController 
     def fifth
-      render turbo_stream: turbo_stream.update('hello_frame', partial: 'ajax_template', locals: { hello_content: @hello_content })
+      render turbo_stream: turbo_stream.update('hello_frame', partial: 'ajax_template')
     end
 end
 ```
