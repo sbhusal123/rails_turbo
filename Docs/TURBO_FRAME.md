@@ -65,3 +65,11 @@ end
 ```
 
 Here in the controller, we're updating the template using a turbo stream.
+
+Also make sure that the, fifth route is post only. i.e.
+
+```rb
+Rails.application.routes.draw do
+  post "/fifth", to: "site#fifth", as: :fifth_page
+end
+```
