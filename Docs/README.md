@@ -75,3 +75,69 @@ We need to access the value passed from partial in our template:
 ```rb
 Turbo::StreamsChannel.broadcast_update_to("mystr", target: "content", partial: "site/streamed_stuff", locals: {my_value: 22})
 ```
+
+## 2. Usage with template button event
+
+We'll now reload the part of the page in this part.
+
+> Our Partial
+
+```erb
+<p>Hi</p>
+
+<p><%= defined?(my_value) && my_value.present?  ? my_value : 10  %></p>
+```
+
+This part displays the value of local my_value passed.
+
+
+> Our Template
+
+```erb
+<%= turbo_stream_from "event_when_button_clicked" %>
+
+<%= button_to "Click me", third_page_path, remote: true, class: "turbo-frame" %>
+
+<div class="my-8 w-full mx-auto" id="content">
+  <%= render "dynamic_content" %>
+</div>
+
+```
+
+We're interested to listen to an event `event_when_button_clicked` which is triggerd when clicking the `Click Me` button.
+
+```
+<%= turbo_stream_from "event_when_button_clicked" %>
+```
+
+which basically is handled by the third_page_path i.e. third_page route which corresponds to `third` controller method.
+
+
+> Controller
+
+```rb
+class SiteController < ApplicationController 
+
+    def first
+    end
+
+    def second
+    end 
+
+    def third
+        respond_to do |format|
+            format.html { render :third_page }
+            format.turbo_stream { head  Turbo::StreamsChannel.broadcast_update_to(
+                "event_when_button_clicked",
+                target: "content",
+                partial: "site/dynamic_content",
+                locals: {
+                  my_value: 1000
+                }
+            )}
+          end        
+    end
+end
+```
+
+So, in the third page what we do is, we turbo stream the head value with broadcast object.
