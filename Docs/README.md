@@ -55,3 +55,23 @@ Turbo::StreamsChannel.broadcast_append_to("mystr", target: "content", partial: "
 
 This command will, trigger a broadcast to the **mystr** which **appends** the html **partial** located at `views/site/streamed_stuff` to the `content` id of the interested page
 
+**4. Passing a locals to partial from event:**
+
+We need to access the value passed from partial in our template:
+
+> Partial
+
+```erb
+<div class="py-4 mb-8 border text-center shadow-lg font-bold bg-white">
+  <%= Time.now.strftime("%d %b %Y, %H:%M:%S") %>
+</div>
+
+  <p class="my-4">Lorem ipsum dolor</p>
+<p><%= defined?(my_value) && my_value.present?  ? my_value : 10  %></p>
+```
+
+> Broadcasting event with locals
+
+```rb
+Turbo::StreamsChannel.broadcast_update_to("mystr", target: "content", partial: "site/streamed_stuff", locals: {my_value: 22})
+```
