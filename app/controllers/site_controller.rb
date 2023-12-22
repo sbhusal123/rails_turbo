@@ -19,4 +19,11 @@ class SiteController < ApplicationController
             )}
           end        
     end
+
+    def fourth
+    end
+
+    def fifth
+      render turbo_stream: turbo_stream.update('hello_frame', partial: 'ajax_template', locals: { hello_content: @hello_content })
+    end
 end

@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Turbo Frame Example</title>
+  <style>
+    body {
+      margin: 10%
+    }
+  </style>
+</head>
+<body>
+
+<%= button_to 'Click me', fifth_page_path(values_to_pass_to_controller: "Value passed from event"), remote: true %>
+
+<%= turbo_frame_tag 'hello_frame' do %>
+  <%= render partial: 'ajax_template' %>
+<%end %>
+</body>
+
+</html>

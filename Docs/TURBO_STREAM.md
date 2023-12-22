@@ -7,7 +7,7 @@
 - Run `./bin/rails turbo:install` installs and configures turbo
 - Run `./bin/rails turbo:install:redis` to change the development Action Cable adapter from Async (the default one) to Redis
 
-## Basics Use Case:
+## Basics Use Case of Streams
 
 In this step, we're going to do a simple hack, where you broadcast from the console and changes is seen live on site.
 
@@ -21,7 +21,7 @@ In this step, we're going to do a simple hack, where you broadcast from the cons
 <p class="my-4">Lorem ipsum dolor</p>
 ```
 
-This partial just displayes the current time and the lorem ipsum text.
+This partial just displayes the current time and the lorem ipsum text. Basically, to dispatch a event / stream event we need a same partial name.
 
 **2. Our main template**
 
@@ -141,3 +141,14 @@ end
 ```
 
 So, in the third page what we do is, we turbo stream the head value with broadcast object.
+
+**Also need to make sure that in our routes, the path is post.**
+
+```rb
+Rails.application.routes.draw do
+  ...
+  ...
+  post "/third", to: "site#third", as: :third_page
+  ...
+end
+```
